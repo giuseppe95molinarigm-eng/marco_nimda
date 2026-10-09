@@ -1,0 +1,140 @@
+/* ==== Prepare to Win / Winnen begint in de voorbereiding — print interior, 6 x 9 in ==== */
+@font-face { font-family: PTW-SerifText; src: url(fonts/SourceSerif4SmText-Regular.ttf); font-weight: 400; font-style: normal; }
+@font-face { font-family: PTW-SerifText; src: url(fonts/SourceSerif4SmText-It.ttf); font-weight: 400; font-style: italic; }
+@font-face { font-family: PTW-SerifText; src: url(fonts/SourceSerif4SmText-Semibold.ttf); font-weight: 600; font-style: normal; }
+@font-face { font-family: PTW-SerifText; src: url(fonts/SourceSerif4SmText-SemiboldIt.ttf); font-weight: 600; font-style: italic; }
+@font-face { font-family: PTW-SerifText; src: url(fonts/SourceSerif4SmText-Bold.ttf); font-weight: 700; font-style: normal; }
+@font-face { font-family: PTW-SerifDisplay; src: url(fonts/SourceSerif4-It.ttf); font-weight: 400; font-style: italic; }
+@font-face { font-family: PTW-SerifDisplay; src: url(fonts/SourceSerif4-SemiboldIt.ttf); font-weight: 600; font-style: italic; }
+@font-face { font-family: PTW-SerifDisplay; src: url(fonts/SourceSerif4-Semibold.ttf); font-weight: 600; font-style: normal; }
+@font-face { font-family: PTW-Barlow; src: url(fonts/Barlow-Regular.ttf); font-weight: 400; }
+@font-face { font-family: PTW-Barlow; src: url(fonts/Barlow-Medium.ttf); font-weight: 500; }
+@font-face { font-family: PTW-Barlow; src: url(fonts/Barlow-SemiBold.ttf); font-weight: 600; }
+@font-face { font-family: PTW-BarlowCond; src: url(fonts/BarlowCondensed-Medium.ttf); font-weight: 500; }
+@font-face { font-family: PTW-BarlowCond; src: url(fonts/BarlowCondensed-SemiBold.ttf); font-weight: 600; }
+@font-face { font-family: PTW-BarlowCond; src: url(fonts/BarlowCondensed-Bold.ttf); font-weight: 700; }
+
+:root { --ink: #1a1a1a; --grey: #5c5c5c; --rule: #9a9a9a; --acc: #e5531a; }
+
+/* ---------- page geometry: mirrored margins, gutter on the inside ---------- */
+@page {
+  size: 6in 9in;
+  margin: 0.80in 0.60in 0.80in 0.875in;
+  @top-center { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+@page :left {
+  margin-left: 0.60in; margin-right: 0.875in;
+  @top-center { content: string(versohead, first-except); font: 500 6.6pt PTW-Barlow; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); vertical-align: bottom; padding-bottom: 14pt; }
+  @bottom-left { content: counter(page); font: 500 8.5pt PTW-Barlow; color: var(--ink); vertical-align: top; padding-top: 16pt; }
+}
+@page :right {
+  margin-left: 0.875in; margin-right: 0.60in;
+  @top-center { content: string(runhead, first-except); font: 500 6.6pt PTW-Barlow; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); vertical-align: bottom; padding-bottom: 14pt; }
+  @bottom-right { content: counter(page); font: 500 8.5pt PTW-Barlow; color: var(--ink); vertical-align: top; padding-top: 16pt; }
+}
+@page :nth(1 of mainstart) { counter-reset: page 1; }
+@page :blank { @top-center { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+@page fm { @top-center { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+@page toc :left { @top-center { content: none; } @bottom-left { content: counter(page, lower-roman); } }
+@page toc :right { @top-center { content: none; } @bottom-right { content: counter(page, lower-roman); } }
+@page part { @top-center { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+
+html { font-family: PTW-SerifText; font-size: 10.4pt; line-height: 14.6pt; color: var(--ink);
+       hyphens: auto; hyphenate-limit-chars: 6 3 3; font-variant-ligatures: common-ligatures;
+       font-kerning: normal; }
+body { margin: 0; }
+p { margin: 0; text-align: justify; text-indent: 1.2em; orphans: 2; widows: 2; }
+
+/* paragraphs following a non-paragraph start flush */
+h1 + p, h2 + p, .h-rule + p, .ch-head + p, aside + p, ol + p, ul + p, figure + p, table + p,
+.lab + p, div + p, p:first-child { text-indent: 0; }
+p.em { font-weight: 600; }
+strong { font-weight: 600; }
+
+/* ---------- front matter ---------- */
+.halftitle, .titlepage, .blankpage, .copyright { page: fm; break-after: page; }
+.copyright { break-before: left; display: flex; flex-direction: column; justify-content: flex-end; height: 7.35in; }
+.copyright p { text-indent: 0; text-align: left; hyphens: manual; font: 400 7.6pt/10.6pt PTW-SerifText; color: var(--ink); margin-bottom: 6.5pt; }
+.copyright p:first-child { font: 600 7.8pt/10.6pt PTW-SerifText; }
+.halftitle { padding-top: 2.1in; text-align: center; }
+.halftitle p { text-align: center; text-indent: 0; font: 600 13pt PTW-BarlowCond; letter-spacing: 0.22em; text-transform: uppercase; }
+.titlepage { padding-top: 1.35in; break-before: right; }
+.tp-title { font: 700 44pt/0.98 PTW-BarlowCond; letter-spacing: 0.01em; color: var(--ink); }
+.tp-title .tl { display: block; }
+.tp-title .acc { color: var(--acc); }
+.tp-rule { width: 42pt; height: 3pt; background: var(--acc); margin: 22pt 0 16pt; }
+.tp-sub { text-indent: 0; text-align: left; font: italic 400 13pt/17pt PTW-SerifDisplay; color: var(--grey); width: 3.3in; hyphens: manual; }
+.tp-author { text-indent: 0; text-align: left; margin-top: 1.9in; font: 600 12pt PTW-BarlowCond; letter-spacing: 0.24em; }
+
+.toc { page: toc; break-before: right; }
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.toc-list { hyphens: manual; }
+.toc-list li { break-inside: avoid; display: flex; align-items: baseline; }
+.toc-list .tt { flex: 1; }
+.toc-list a.pg { flex: none; letter-spacing: 0; width: 2.6em; text-align: right; color: var(--ink); text-decoration: none; font: 500 9pt PTW-Barlow; align-self: flex-end; }
+.toc-list a.pg::after { content: target-counter(attr(href), page); }
+.t-fm { font: 600 10pt/1.3 PTW-Barlow; margin: 0 0 4pt 0; }
+.t-part { margin: 13pt 0 5pt 0; font: 600 9.2pt/1.25 PTW-Barlow; text-transform: uppercase; letter-spacing: 0.06em; break-after: avoid; }
+.t-part .tn { flex: none; color: var(--acc); margin-right: 0.7em; }
+.t-ch { font: 400 9.2pt/12.4pt PTW-SerifText; margin: 0 0 2.6pt 0; }
+.t-ch .tn { flex: none; width: 1.9em; font: 600 8.6pt PTW-Barlow; color: var(--grey); }
+.t-ch .tt { hyphens: manual; }
+
+.front { break-before: right; }
+.front.firstmain { page: mainstart; }
+.fm-title { margin: 0.95in 0 0 0; font: 600 26pt/1.05 PTW-BarlowCond; text-transform: uppercase; letter-spacing: 0.02em; }
+.h-rule { width: 30pt; height: 2.6pt; background: var(--acc); margin: 13pt 0 30pt; }
+
+/* ---------- part openers ---------- */
+.part { page: part; break-before: right; break-after: right; padding-top: 2.0in; }
+.part-label { text-indent: 0; font: 600 9pt PTW-Barlow; letter-spacing: 0.32em; color: var(--acc); }
+.part-num { text-indent: 0; font: 600 84pt/0.95 PTW-SerifDisplay; letter-spacing: 0.02em; margin-top: 4pt; color: var(--ink); }
+.part-rule { width: 100%; height: 0.6pt; background: var(--ink); margin: 18pt 0 16pt; position: relative; }
+.part-title { margin: 0; font: 600 25pt/1.08 PTW-BarlowCond; text-transform: uppercase; letter-spacing: 0.015em; hyphens: manual; }
+
+/* ---------- chapter openers ---------- */
+.chapter { break-before: page; }
+.chapter.afterpart { break-before: right; }
+.ch-head { padding-top: 0.55in; break-after: avoid; }
+.ch-label { text-indent: 0; font: 600 7.6pt PTW-Barlow; letter-spacing: 0.3em; color: var(--acc); }
+.ch-num { text-indent: 0; font: 600 40pt/1 PTW-BarlowCond; color: var(--acc); margin: 2pt 0 8pt; }
+.ch-title { margin: 0; font: 600 21pt/1.08 PTW-BarlowCond; text-transform: uppercase; letter-spacing: 0.012em; hyphens: manual; }
+.chapter .h-rule { background: var(--ink); width: 100%; height: 0.6pt; margin: 14pt 0 22pt; }
+
+/* ---------- labels ---------- */
+.lab { text-indent: 0; text-align: left; font: 600 7.2pt PTW-Barlow; letter-spacing: 0.24em; text-transform: uppercase; color: var(--acc); margin-bottom: 6pt; break-after: avoid; }
+
+/* statement */
+.statement { margin: 4pt 0 22pt; padding: 1pt 0 2pt 14pt; border-left: 2.2pt solid var(--acc); break-inside: avoid; }
+.statement .st-text { text-indent: 0; text-align: left; hyphens: manual; font: italic 400 12.6pt/17pt PTW-SerifDisplay; color: var(--ink); }
+
+/* practical example */
+.example { margin: 18pt 0 16pt; padding-top: 9pt; border-top: 0.6pt solid var(--ink); }
+.example::after { content: ""; display: block; width: 30pt; height: 0.6pt; background: var(--ink); margin-top: 11pt; }
+.example.tight { margin-bottom: 0; }
+.example.tight::after { display: none; }
+.example p { text-indent: 0; margin-bottom: 5pt; }
+
+/* reflection questions */
+.reflection { margin: 16pt 0 16pt; padding: 10pt 0 2pt; border-top: 0.6pt solid var(--ink); break-inside: avoid; }
+
+/* subheads */
+h2.sub { font: 600 10.6pt/13.5pt PTW-Barlow; margin: 17pt 0 5pt; break-after: avoid; color: var(--ink); text-align: left; hyphens: manual; }
+
+/* lists */
+ol.nl { list-style: none; margin: 7pt 0 9pt; padding: 0; }
+ol.nl li { padding-left: 1.6em; margin-bottom: 4pt; text-align: left; break-inside: avoid; }
+ol.nl .n { float: left; width: 1.6em; margin-left: -1.6em; font: 600 9.6pt PTW-BarlowCond; color: var(--acc); }
+ul.bl { list-style: none; margin: 7pt 0 9pt; padding: 0; }
+ul.bl li { margin-bottom: 3pt; padding-left: 1.4em; text-align: left; }
+ul.bl li::before { content: "–"; float: left; width: 1.4em; margin-left: -1.4em; color: var(--acc); font-family: PTW-Barlow; font-weight: 600; }
+
+/* figures */
+figure.fig { margin: 12pt 0 12pt; text-align: center; break-inside: avoid; }
+figure.fig img { max-width: 100%; max-height: 7.15in; width: auto; height: auto; }
+
+table.tbl { width: 100%; border-collapse: collapse; font: 400 8.6pt/11pt PTW-Barlow; margin: 10pt 0 14pt; break-inside: avoid; }
+table.tbl th { font-weight: 600; text-align: left; border-bottom: 0.8pt solid var(--ink); padding: 3pt 4pt; }
+table.tbl td { border-bottom: 0.4pt solid var(--rule); padding: 3pt 4pt; vertical-align: top; }
