@@ -88,7 +88,11 @@ strong { font-weight: 600; }
 .h-rule { width: 30pt; height: 2.6pt; background: var(--acc); margin: 13pt 0 30pt; }
 
 /* ---------- part openers ---------- */
-.part { page: part; break-before: right; break-after: right; padding-top: 2.0in; }
+.part { page: part; break-before: right; break-after: page; padding-top: 2.0in; }
+/* full-page photo on the verso facing a chapter opener (no running head, no folio) */
+@page photo { @top-center { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+.photopage { page: photo; break-before: left; break-after: page; height: 7.4in; display: flex; align-items: center; justify-content: center; }
+.photopage img { width: 100%; height: auto; }
 .part-label { text-indent: 0; font: 600 9pt PTW-Barlow; letter-spacing: 0.32em; color: var(--acc); }
 .part-num { text-indent: 0; font: 600 84pt/0.95 PTW-SerifDisplay; letter-spacing: 0.02em; margin-top: 4pt; color: var(--ink); }
 .part-rule { width: 100%; height: 0.6pt; background: var(--ink); margin: 18pt 0 16pt; position: relative; }

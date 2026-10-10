@@ -16,6 +16,10 @@ ALT = {
     'en': {'image2.png': 'Infographic: The 4 playing fields of business performance'},
     'nl': {'image2.png': 'Infographic: De 4 speelvelden van zakelijk presteren'},
 }
+# client request (requirements form): author photo as player/captain, full page facing the Chapter 6 opener
+FACING_PHOTO = {6: ('author_captain.png', {
+    'en': 'Harrie Kwinten as a field hockey player, wearing number 10 and the captain\'s armband',
+    'nl': 'Harrie Kwinten als hockeyspeler met rugnummer 10 en de aanvoerdersband'})}
 SKIP_IMG = {'en': {'image1.jpeg'}, 'nl': {'image1.jpg'}}  # cover artwork embedded at top of manuscript
 
 
@@ -80,6 +84,9 @@ def build(lang, blocks, media_rel):
         if t == 'chapter':
             close(); aid = f's{b["src"]}'
             after_part = i > 0 and blocks[i - 1]['t'] == 'part'
+            if b['num'] in FACING_PHOTO:
+                f, alts = FACING_PHOTO[b['num']]
+                out.append(f'<section class="photopage"><img src="{media_rel}/{f}" alt="{e(alts[lang])}"/></section>')
             out.append(f'<section class="chapter{" afterpart" if after_part else ""}">'
                        f'<header class="ch-head" id="{aid}"><p class="ch-label">{e(c["chapter"]).upper()}</p>'
                        f'<p class="ch-num">{b["num"]:02d}</p>'

@@ -6,6 +6,20 @@ Status: **sample for approval. Final production has not started.**
 
 ---
 
+## 0. Client requirements received (10 Oct 2026): what changed
+
+| Requirement | Action |
+|---|---|
+| Manuscripts (EN + NL DOCX) | Checked: **byte-for-byte identical** to the files already audited. Everything below still applies. |
+| Trim size 6 × 9 in | Already the basis of the sample. |
+| **"Add the photo of the author as a player/captain in Chapter 6"** | Done. The photo sits on its own **left page, directly facing the Chapter 6 opener** ("The Captain: leadership under pressure" / "De Captain: leiderschap onder druk"). That page was previously the blank page after the Part II opener, so **no pages are added** (EN 167, NL 165). It has no running head and no page number. Previews: `*_Chapter6_Photo_Spread.pdf` / `*_Hoofdstuk6_Foto_Spread.pdf` and `previews/*_chapter6_photo_spread.png`. |
+| Photo file quality | The copy received is 1,122 × 1,402 px, which prints at **248 ppi** across the full text width (4.53 in). That is acceptable; 300 ppi is ideal. It is a compressed web copy, so **please supply the original `aangepastefoto.png`** (2 MB) for the final files. |
+| Photo caption | None was supplied, so none is printed. If you want one (e.g. a name, year or team), please send the exact wording for both languages. |
+| "Manuscript is NOT final, I may need to make changes" | The layout is generated directly from the DOCX, so text changes are cheap **before** final production. Please send all content edits before Phase 3. Edits after the PDFs are final may be charged extra under the service terms. |
+| Deliverable: "print-ready PDF only", no InDesign files, no AI images | Noted. No InDesign source and no generated images. **Scope to confirm:** paperback PDF only, or also the hardcover PDF and Kindle EPUB from the original brief? |
+
+---
+
 ## 1. What is in this folder
 
 | File | What it is |
@@ -13,6 +27,7 @@ Status: **sample for approval. Final production has not started.**
 | `Prepare_to_Win_Sample_8pp.pdf` | English: 8 real pages taken from a full trial layout, 6 × 9 in, fonts embedded |
 | `Winnen_Begint_Sample_8pp.pdf` | Dutch: the same 8 page types, typeset independently |
 | `previews/*_sample_color.png` | Contact sheets of the 8 pages |
+| `*_Chapter6_Photo_Spread.pdf`, `*_Hoofdstuk6_Foto_Spread.pdf` | 3-page spread preview: Part II opener, author photo, Chapter 6 opener |
 | `previews/*_sample_grayscale_bw_print.png` | The same pages in grayscale, to show how a black-and-white print run will look |
 | `../SOURCE_FILES/` | Editable production sources: DOCX parser, layout builder, stylesheet, QC scripts, fonts with their licences |
 
@@ -78,6 +93,7 @@ All images except the cover appear in their original positions.
 | Retention-curve illustration | 981 × 479 | 4.52 in | 217 ppi | OK |
 | Team photo (trophy) | 982 × 658 | 4.52 in | 217 ppi | Acceptable for a photo |
 | Coaching vs. training table (EN only, as an image) | 997 × 739 | 4.52 in | 220 ppi | See 2.4 |
+| Author photo, player/captain (added on client request, facing Ch. 6) | 1,122 × 1,402 (web copy) | 4.53 in | 248 ppi | Acceptable; the original PNG is requested for the final files |
 | **"Harrie and Marella, 1965" photo** | **323 × 392 (EN) / 392 × 434 (NL)** | ≈ 3.4–4 in | **≈ 96 ppi** | **Not suitable for print at this size.** At 300 ppi it could only be printed about 1.1–1.3 in wide. |
 
 All infographics are in **full colour** (orange accents). In a black-and-white print run the orange becomes mid-grey and every label stays legible (see the grayscale previews). The orange "Winning starts in preparation" lines become noticeably lighter. No image has been stretched: all are scaled proportionally.
