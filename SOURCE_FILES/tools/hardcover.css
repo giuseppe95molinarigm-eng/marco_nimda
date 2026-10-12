@@ -1,0 +1,6 @@
+/* Hardcover (case laminate) interior: same design as print.css, wider gutter because
+   case binding takes up more of the inside margin. Inside 1.0 in instead of 0.875 in. */
+@import url(print.css);
+@page { margin: 0.80in 0.60in 0.80in 1.0in; }
+@page :left { margin-left: 0.60in; margin-right: 1.0in; }
+@page :right { margin-left: 1.0in; margin-right: 0.60in; }

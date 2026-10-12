@@ -26,6 +26,11 @@ SKIP_IMG = {'en': {'image1.jpeg'}, 'nl': {'image1.jpg'}}  # cover artwork embedd
 def e(t): return html.escape(t)
 
 
+def runhead(t, limit=46):
+    """Running heads must fit on one line: long chapter titles use the words before the colon."""
+    return t if len(t) <= limit or ':' not in t else t.split(':')[0].strip()
+
+
 def balance(t, per_line):
     """Break a display title into visually balanced lines (print only)."""
     import math
@@ -46,7 +51,7 @@ def balance(t, per_line):
     return ' <br/>'.join(e(' '.join(x)) for x in best[1])
 
 
-def build(lang, blocks, media_rel):
+def build(lang, blocks, media_rel, css='print.css', shrink=()):
     c = CFG[lang]
     out = []
     toc = []
@@ -90,7 +95,7 @@ def build(lang, blocks, media_rel):
             out.append(f'<section class="chapter{" afterpart" if after_part else ""}">'
                        f'<header class="ch-head" id="{aid}"><p class="ch-label">{e(c["chapter"]).upper()}</p>'
                        f'<p class="ch-num">{b["num"]:02d}</p>'
-                       f'<h1 class="ch-title">{balance(b["title"], 30)}</h1><div class="h-rule"></div></header>')
+                       f'<h1 class="ch-title" data-rh="{e(runhead(b["title"]))}">{balance(b["title"], 30)}</h1><div class="h-rule"></div></header>')
             sec = 'c'; toc.append(('ch', aid, f'{b["num"]}', b['title'])); i += 1; continue
         if t == 'label':
             kind = b['kind']
@@ -118,10 +123,23 @@ def build(lang, blocks, media_rel):
         if t == 'sub':
             out.append(f'<h2 class="sub">{b["html"]}</h2>'); i += 1; continue
         if t == 'img':
-            if b['src_file'] not in SKIP_IMG[lang]:
-                alt = ALT[lang].get(b['src_file'], '')
-                out.append(f'<figure class="fig"><img src="{media_rel}/{b["src_file"]}" alt="{e(alt)}"/></figure>')
+            alt = ALT[lang].get(b['src_file'], '')
+            from PIL import Image
+            px = Image.open(os.path.join(MEDIA_DIR, b['src_file'])).size[0]
+            # never print a raster below ~150 ppi: small originals are set narrower than the text block
+            style = f' style="width:{px / 150:.2f}in"' if px / 150 < 4.5 else ''
+            cap = ''
+            if i + 1 < n and blocks[i + 1]['t'] == 'caption':
+                cap = f'<figcaption>{blocks[i + 1]["html"]}</figcaption>'; i += 1
+            if b['src'] in shrink and not style: style = ' style="max-height:6.0in"'
+            out.append(f'<figure class="fig" id="fig{b["src"]}"><img src="{media_rel}/{b["src_file"]}" alt="{e(alt)}"{style}/>{cap}</figure>')
             i += 1; continue
+        if t == 'numsub':
+            out.append(f'<h2 class="sub numsub"><span class="sn">{b["n"]}</span>{b["html"]}</h2>'); i += 1; continue
+        if t == 'signature':
+            out.append(f'<p class="signature">{b["html"]}</p>'); i += 1; continue
+        if t == 'caption':
+            out.append(f'<p class="caption">{b["html"]}</p>'); i += 1; continue
         if t == 'table':
             rows = b['rows']
             out.append('<table class="tbl"><thead><tr>' + ''.join(f'<th>{e(x)}</th>' for x in rows[0]) + '</tr></thead><tbody>' +
@@ -145,7 +163,7 @@ def build(lang, blocks, media_rel):
                f'<ol class="toc-list">{"".join(rows)}</ol></section>')
     body = '\n'.join(out).replace('@@TOC@@', tochtml)
     return (f'<!doctype html><html lang="{c["lang"]}"><head><meta charset="utf-8"/><title>{e(c["title"])}</title>'
-            f'<link rel="stylesheet" href="print.css"/><style>.front .fm-title, .ch-title {{ string-set: runhead content(text), versohead "{e(c["title"])}"; }}</style></head>'
+            f'<link rel="stylesheet" href="{css}"/><style>.front .fm-title {{ string-set: runhead content(text), versohead "{e(c["title"])}"; }} .ch-title {{ string-set: runhead attr(data-rh), versohead "{e(c["title"])}"; }}</style></head>'
             f'<body data-title="{e(c["title"])}">{body}</body></html>')
 
 
@@ -167,7 +185,10 @@ def emit_flow(blocks, i, out):
     out.append(f'<p>{b.get("html", "")}</p>'); return i + 1
 
 
+MEDIA_DIR = 'media'
+
 if __name__ == '__main__':
     lang, src, dst = sys.argv[1:4]
+    MEDIA_DIR = os.path.join(os.path.dirname(os.path.abspath(dst)), 'media')
     blocks = json.load(open(src))
     open(dst, 'w').write(build(lang, blocks, 'media'))

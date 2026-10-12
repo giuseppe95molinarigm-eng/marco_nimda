@@ -125,6 +125,8 @@ strong { font-weight: 600; }
 .reflection { margin: 16pt 0 16pt; padding: 10pt 0 2pt; border-top: 0.6pt solid var(--ink); break-inside: avoid; }
 
 /* subheads */
+h2.numsub .sn { color: var(--acc); font-family: PTW-BarlowCond; font-weight: 600; margin-right: 0.45em; }
+p.signature { text-indent: 0; text-align: left; margin-top: 14pt; font: 600 9.6pt PTW-Barlow; letter-spacing: 0.02em; }
 h2.sub { font: 600 10.6pt/13.5pt PTW-Barlow; margin: 17pt 0 5pt; break-after: avoid; color: var(--ink); text-align: left; hyphens: manual; }
 
 /* lists */
@@ -132,11 +134,12 @@ ol.nl { list-style: none; margin: 7pt 0 9pt; padding: 0; }
 ol.nl li { padding-left: 1.6em; margin-bottom: 4pt; text-align: left; break-inside: avoid; }
 ol.nl .n { float: left; width: 1.6em; margin-left: -1.6em; font: 600 9.6pt PTW-BarlowCond; color: var(--acc); }
 ul.bl { list-style: none; margin: 7pt 0 9pt; padding: 0; }
-ul.bl li { margin-bottom: 3pt; padding-left: 1.4em; text-align: left; }
+ul.bl li { break-inside: avoid; margin-bottom: 3pt; padding-left: 1.4em; text-align: left; }
 ul.bl li::before { content: "–"; float: left; width: 1.4em; margin-left: -1.4em; color: var(--acc); font-family: PTW-Barlow; font-weight: 600; }
 
 /* figures */
 figure.fig { margin: 12pt 0 12pt; text-align: center; break-inside: avoid; }
+figure.fig figcaption, p.caption { text-indent: 0; text-align: center; margin-top: 6pt; font: italic 400 8.6pt/11pt PTW-SerifText; color: var(--grey); hyphens: manual; }
 figure.fig img { max-width: 100%; max-height: 7.15in; width: auto; height: auto; }
 
 table.tbl { width: 100%; border-collapse: collapse; font: 400 8.6pt/11pt PTW-Barlow; margin: 10pt 0 14pt; break-inside: avoid; }
