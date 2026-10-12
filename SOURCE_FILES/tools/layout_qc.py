@@ -23,10 +23,13 @@ for i, p in enumerate(d):
         if x0 < 18 or y0 < 18 or x1 > W - 18 or y1 > H - 18: issues['unsafe_edge'].append(no)
         if 0.8 * 72 - 2 < y0 < H - 0.8 * 72 + 2 and (x0 < left - 2 or x1 > right + 2): issues['outside_textblock'].append((no, round(x0), round(x1), sp[0]['text'][:30]))
     body = [l for l in lines if 0.8 * 72 - 2 < l[0][1] < H - 0.8 * 72 + 2]
+    if not body and p.get_image_info():
+        continue  # full-page photo / image page
     if body:
         last = body[-1]
         if all(is_heading(s) for s in last[1]): issues['orphan_heading'].append((no, last[1][0]['text'][:40]))
-        gap = (H - 0.8 * 72) - last[0][3]
+        img_bottom = max([im['bbox'][3] for im in p.get_image_info()] or [0])
+        gap = (H - 0.8 * 72) - max(last[0][3], img_bottom)
         nxt = d[i + 1] if i + 1 < len(d) else None
         nxt_txt = nxt.get_text().replace(' ', '')[:12].upper() if nxt else ''
         chapter_end = (not nxt) or nxt_txt.startswith(('CHAPTER', 'HOOFDSTUK', 'PART', 'DEEL')) or nxt.get_text().strip() == '' \

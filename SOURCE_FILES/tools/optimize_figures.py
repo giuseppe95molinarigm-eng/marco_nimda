@@ -69,12 +69,14 @@ def costs(pdf, figpage):
 
 
 figs = [b['src'] for b in base if b['t'] == 'img' and b['src_file'] not in build_print.SKIP_IMG[lang]]
+# captioned personal photos keep their exact place in the text (their position carries meaning)
+PINNED = {b['src'] for i, b in enumerate(base[:-1]) if b['t'] == 'img' and base[i + 1]['t'] == 'caption'}
 shifts, shrink = {f: 0 for f in figs}, set()
 pdf, fp = render(shifts, shrink); c, npages = costs(pdf, fp)
 print(lang, 'initial gaps (in):', {f: round(v, 2) for f, v in c.items() if v > 0.9})
 CANDS = [(1, False), (2, False), (-1, False), (3, False), (-2, False), (0, True), (4, False), (-3, False), (5, False), (1, True), (-1, True), (6, False)]
 for f in figs:
-    if c.get(f, 0) <= 0.9: continue
+    if c.get(f, 0) <= 0.9 or f in PINNED: continue
     best = (c[f], 0, False, pdf, fp)
     for k, sh in CANDS:
         s2 = {**shifts, f: k}; sh2 = shrink | {f} if sh else shrink - {f}
