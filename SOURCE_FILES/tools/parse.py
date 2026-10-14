@@ -15,7 +15,7 @@ LABELS = {
 }
 RE_PART = re.compile(r'^(Part|Deel)\s+([IVX]+)\s*[—–-]\s*(.+)$')
 RE_CHAP = re.compile(r'^(Chapter|Hoofdstuk)\s+(\d+)\s*[—–-]\s*(.+)$')
-RE_NUM = re.compile(r'^(\d+)/\s*(.*)$', re.S)
+RE_NUM = re.compile(r'^(\d{1,2})(?:/\s*|\.\s+)(.*)$', re.S)   # author numbering: '1/ text' (v1) or '1. text' (v2)
 FRONT = {'Foreword', 'Introduction', 'Voorwoord', 'Inleiding'}
 BACK = {'Afterword', 'Nawoord'}
 NEXT = re.compile(r'^(Next steps for you to win the game|Volgende stappen voor jou om de wedstrijd te winnen)', re.I)
@@ -125,7 +125,7 @@ def parse(path, media_out):
               blocks.append({'t': 'label', 'kind': lab, 'text': key, 'raw': text, 'src': idx}); continue
           nm = RE_NUM.match(text)
           if nm:
-              body = h.split('/', 1)[1].lstrip() if '/' in h else h
+              body = strip_number(h, nm.group(2))
               kind = 'numsub' if (bold and len(text) < 100 and not text.endswith('.')) else 'num'
               blocks.append({'t': kind, 'n': int(nm.group(1)), 'html': norm_html(strip_strong(body) if kind == 'numsub' else body),
                              'text': norm(nm.group(2)), 'bold': bold, 'src': idx}); continue
@@ -142,7 +142,12 @@ def parse(path, media_out):
 
 # Hard returns typed in the middle of a sentence (Word line-wrap accidents), by source paragraph index.
 # Each listed paragraph is joined with the one that follows it. Reviewed by hand; see the QC report.
-JOIN_WITH_NEXT = {'en': {1684, 1816, 1818}, 'nl': {1732, 1734, 1780}}
+# Matched on the text (start of the broken paragraph), so the rule survives manuscript revisions.
+JOIN_WITH_NEXT = {
+    'en': ('greater self-confidence and independence among', '3–7 points = development is still too disconnected from',
+           '8–11 = a good foundation, but the rhythm is not yet'),
+    'nl': ('3–7 punten = ontwikkeling staat nog te ver af van de', '8–11 = goede basis, maar het ritme is nog niet stevig',
+           'Aan de slag gaan betekent niet dat alles tegelijk moet veranderen.')}
 RE_SIGN = re.compile(r'^Harrie Kwinten, \d{4}$')
 
 
@@ -154,7 +159,7 @@ def postprocess(blocks):
         if prev and prev.get('_join') and b['t'] in ('p', 'bullet'):
             prev['html'] += ' ' + b['html']; prev['text'] += ' ' + b['text']; prev['joined'] = b['src']
             del prev['_join']; continue
-        if b['t'] in ('p', 'bullet') and b['src'] in JOIN_WITH_NEXT[lang]:
+        if b['t'] in ('p', 'bullet') and b['text'].startswith(JOIN_WITH_NEXT[lang]) and not b['text'].rstrip().endswith(('.', '!', '?')):
             b['_join'] = True
         if b['t'] in ('sub', 'p') and RE_SIGN.match(b['text']):
             b = dict(b, t='signature', html=strip_strong(b['html']))
@@ -185,6 +190,19 @@ def split_soft_breaks(h, plain, allb):
     return out
 
 
+def strip_number(h, plain_rest):
+    """Remove the author's leading '1/' or '1.' from inline HTML, even when Word split it into
+    separate formatted runs (e.g. <strong>1.</strong> <strong>Title</strong>)."""
+    tag = r'(?:<[^>]+>)'
+    m = re.match(rf'^({tag}*)\s*\d{{1,2}}{tag}*\s*(?:/|\.){tag}*\s*', h.lstrip())
+    if m:
+        rest = m.group(1) + h.lstrip()[m.end():]
+        if sorted(re.findall(r'<(strong|em)>', rest)) == sorted(re.findall(r'</(strong|em)>', rest)): return rest
+        rest = h.lstrip()[m.end():]
+        if sorted(re.findall(r'<(strong|em)>', rest)) == sorted(re.findall(r'</(strong|em)>', rest)): return rest
+    return html.escape(plain_rest.strip())
+
+
 def strip_strong(h):
     return h.replace('<strong>', '').replace('</strong>', '')
 
@@ -201,6 +219,9 @@ LANG = 'en'
 if __name__ == '__main__':
     LANG = sys.argv[4] if len(sys.argv) > 4 else ('nl' if 'nl' in sys.argv[2] else 'en')
     b = parse(sys.argv[1], sys.argv[3])
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import edits
+    for note, status in edits.apply(b, LANG): print(f'  edit: {note} -> {status}')
     json.dump(b, open(sys.argv[2], 'w'), ensure_ascii=False, indent=1)
     from collections import Counter
     print(Counter(x['t'] for x in b))

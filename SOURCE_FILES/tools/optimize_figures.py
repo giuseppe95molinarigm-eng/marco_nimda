@@ -11,6 +11,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_print, weasyprint, pymupdf
 
 lang, src, out_html, out_pdf, css, layout_json = sys.argv[1:7]
+edition = sys.argv[7] if len(sys.argv) > 7 else 'paperback'
+media_rel = sys.argv[8] if len(sys.argv) > 8 else 'media'
 base = json.load(open(src))
 build_print.MEDIA_DIR = os.path.join(os.path.dirname(os.path.abspath(out_html)), 'media')
 FLOW = ('p', 'num', 'bullet', 'sub', 'numsub')   # blocks a figure may float past (never labels, chapters, parts)
@@ -40,7 +42,7 @@ def arrange(blocks, shifts):
 def render(shifts, shrink):
     bl = arrange(base, shifts)
     if bl is None: return None
-    html = build_print.build(lang, bl, 'media', css, shrink)
+    html = build_print.build(lang, bl, media_rel, css, shrink, edition)
     open(out_html, 'w').write(html)
     doc = weasyprint.HTML(out_html).render()
     figpage = {}

@@ -3,7 +3,7 @@ import json, sys, html, os
 
 CFG = {
     'en': dict(lang='en-GB', title='Prepare to Win', title_lines=['PREPARE', 'TO <span class="acc">WIN</span>'],
-               subtitle='How a world champion thinks, leads and builds winning teams',
+               subtitle='How a World Champion Thinks, Leads and Builds Winning Teams',  # wording/casing confirmed by client 14 Oct
                author='Harrie Kwinten', contents='Contents', part='Part', chapter='Chapter',
                labels={'statement': 'Statement', 'example': 'Practical example', 'reflection': 'Reflection questions'}),
     'nl': dict(lang='nl-NL', title='Winnen begint in de voorbereiding',
@@ -20,10 +20,19 @@ ALT = {
 FACING_PHOTO = {6: ('author_captain.png', {
     'en': 'Harrie Kwinten as a field hockey player, wearing number 10 and the captain\'s armband',
     'nl': 'Harrie Kwinten als hockeyspeler met rugnummer 10 en de aanvoerdersband'})}
+# ISBNs supplied by the client (14 Oct 2026); each print edition carries its own
+ISBN = {('en', 'paperback'): '9789090435213', ('en', 'hardcover'): '9789090435008',
+        ('nl', 'paperback'): '9789090435015', ('nl', 'hardcover'): '9789090434995'}
 SKIP_IMG = {'en': {'image1.jpeg'}, 'nl': {'image1.jpg'}}  # cover artwork embedded at top of manuscript
 
 
 def e(t): return html.escape(t)
+
+
+def isbn_line(h, lang, edition):
+    """Fill the manuscript's ISBN placeholder ("ISBN: [number]" / "ISBN") with this edition's number."""
+    import re
+    return re.sub(r'ISBN(?::\s*\[number\])?', f'ISBN {ISBN[(lang, edition)]}', h, count=1)
 
 
 def runhead(t, limit=46):
@@ -51,7 +60,7 @@ def balance(t, per_line):
     return ' <br/>'.join(e(' '.join(x)) for x in best[1])
 
 
-def build(lang, blocks, media_rel, css='print.css', shrink=()):
+def build(lang, blocks, media_rel, css='print.css', shrink=(), edition='paperback'):
     c = CFG[lang]
     out = []
     toc = []
@@ -63,7 +72,7 @@ def build(lang, blocks, media_rel, css='print.css', shrink=()):
                f'</div><div class="tp-rule"></div><p class="tp-sub">{e(c["subtitle"])}</p>'
                f'<p class="tp-author">{e(c["author"].upper())}</p></section>')
     colo = [b for b in blocks if b['t'] == 'colophon']
-    out.append('<section class="copyright">' + ''.join(f'<p>{b["html"]}</p>' for b in colo) + '</section>')
+    out.append('<section class="copyright">' + ''.join(f'<p>{isbn_line(b["html"], lang, edition)}</p>' for b in colo) + '</section>')
     out.append('@@TOC@@')
 
     i = 0; n = len(blocks); sec = None; first = True

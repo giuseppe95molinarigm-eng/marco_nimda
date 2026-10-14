@@ -1,0 +1,5 @@
+/* Paperback: black-and-white interior (client choice, 14 Oct 2026).
+   The orange accent becomes a solid dark grey so small labels print crisply on a mono press;
+   images are supplied as grayscale files (media_gray/). */
+@import url(print.css);
+:root { --acc: #4d4d4d; }
