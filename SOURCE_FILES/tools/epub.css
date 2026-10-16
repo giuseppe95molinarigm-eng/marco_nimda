@@ -50,3 +50,12 @@ ol.toc { list-style: none; margin: 0; padding: 0; }
 ol.toc li { margin: 0.5em 0; }
 ol.toc ol { list-style: none; margin: 0.3em 0 0.8em 1.2em; padding: 0; }
 ol.toc a { text-decoration: none; }
+
+/* Block paragraphs (client request, 15 Oct 2026): no indent, one blank line between paragraphs */
+p { text-indent: 0; }
+p + p { margin-top: 1em; }
+.lab + p { margin-top: 0; }
+section.example p { margin-bottom: 0; }
+ol.nl, ul { margin-top: 1em; margin-bottom: 1em; }
+h2 { margin-top: 2em; }
+section.copyright p + p { margin-top: 0; }

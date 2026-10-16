@@ -145,3 +145,18 @@ figure.fig img { max-width: 100%; max-height: 7.15in; width: auto; height: auto;
 table.tbl { width: 100%; border-collapse: collapse; font: 400 8.6pt/11pt PTW-Barlow; margin: 10pt 0 14pt; break-inside: avoid; }
 table.tbl th { font-weight: 600; text-align: left; border-bottom: 0.8pt solid var(--ink); padding: 3pt 4pt; }
 table.tbl td { border-bottom: 0.4pt solid var(--rule); padding: 3pt 4pt; vertical-align: top; }
+
+/* ---------- Block paragraphs (client request, 15 Oct 2026) ----------
+   No first-line indent; one blank line (= one line of body text, 14.6pt) between paragraphs
+   and standalone sentences, applied consistently throughout the running text. */
+p { text-indent: 0; }
+.chapter p + p, .front p + p { margin-top: 14.6pt; }
+.chapter .ch-head p + p { margin-top: 0; }                       /* chapter label / number keep their own spacing */
+.chapter .lab + p, .front .lab + p { margin-top: 0; }             /* label sits directly above its text */
+.example p { margin-bottom: 0; }
+ol.nl, ul.bl { margin: 14.6pt 0; }
+figure.fig { margin: 14.6pt 0; }
+h2.sub { margin: 26pt 0 7pt; }
+/* reflection blocks may continue on the next page (label stays with the first question, questions never split) */
+.reflection { break-inside: auto; }
+.reflection .lab { break-after: avoid; }
