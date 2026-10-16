@@ -1,6 +1,6 @@
-# Quality Control Report: final files (version 2)
+# Quality Control Report: final files (version 3)
 **Prepare to Win** (EN) · **Winnen begint in de voorbereiding** (NL) · Harrie Kwinten
-Prepared by Elite Publishing · 14 October 2026
+Prepared by Elite Publishing · 16 October 2026
 
 Sources:
 - **English:** updated manuscript received 14 Oct 2026, with about 290 author revisions compared with v1.
@@ -12,13 +12,14 @@ Sources:
 
 | File | Format | Interior | Pages | ISBN printed |
 |---|---|---|---|---|
-| `ENGLISH_PREPARE_TO_WIN/Prepare_to_Win_Paperback.pdf` | 6 × 9 in print PDF | **black & white**, white paper | **165** | 9789090435213 |
-| `ENGLISH_PREPARE_TO_WIN/Prepare_to_Win_Hardcover.pdf` | 6 × 9 in print PDF | **colour**, white paper | **169** | 9789090435008 |
+| `ENGLISH_PREPARE_TO_WIN/Prepare_to_Win_Paperback.pdf` | 6 × 9 in print PDF | **black & white**, white paper | **196** | 9789090435213 |
+| `ENGLISH_PREPARE_TO_WIN/Prepare_to_Win_Hardcover.pdf` | 6 × 9 in print PDF | **colour**, white paper | **200** | 9789090435008 |
 | `ENGLISH_PREPARE_TO_WIN/Prepare_to_Win_Kindle.epub` | EPUB 3, reflowable | colour | — | lists both print ISBNs |
 | `ENGLISH_PREPARE_TO_WIN/Prepare_to_Win_Kindle_Cover.jpg` | eBook cover, 1801 × 2700 px | — | — | — |
-| `DUTCH_…/Winnen_Begint_Paperback.pdf` | 6 × 9 in print PDF | **black & white**, white paper | **163** | 9789090435015 |
-| `DUTCH_…/Winnen_Begint_Hardcover.pdf` | 6 × 9 in print PDF | **colour**, white paper | **165** | 9789090434995 |
+| `DUTCH_…/Winnen_Begint_Paperback.pdf` | 6 × 9 in print PDF | **black & white**, white paper | **194** | 9789090435015 |
+| `DUTCH_…/Winnen_Begint_Hardcover.pdf` | 6 × 9 in print PDF | **colour**, white paper | **200** | 9789090434995 |
 | `DUTCH_…/Winnen_Begint_Kindle.epub` | EPUB 3, reflowable | colour | — | lists both print ISBNs |
+| `DUTCH_…/Winnen_Begint_Kindle_Cover.jpg` | eBook cover, 1000 × 1600 px | — | — | — |
 
 All four ISBNs were validated (ISBN-13 check digit correct).
 
@@ -33,6 +34,12 @@ All four ISBNs were validated (ISBN-13 check digit correct).
 | Typo corrections | See §3. |
 | Final formats: hardcover, paperback and Kindle | All three formats delivered for both languages. |
 | New front cover | Used for the English Kindle eBook (front panel cut from `Harrie_Cover_UK.pdf`). See §7 for cover remarks. |
+
+## 2b. Spacing update (client request, 15 Oct)
+- **Paragraph style:** block paragraphs throughout all six files. There is no first-line indent, and one blank line (one line of body text) separates every paragraph and standalone sentence. Lists, figures and headings get matching spacing.
+- **Sentence spacing:** checked. The manuscripts contain double spaces in about 290 places (EN 186, NL 107). Every interior has single spaces only.
+- **Page counts:** the extra spacing makes the books longer (see §1). **Cover wraps must be built on these page counts.**
+- **Page breaks:** a reflection-question block may now continue on the next page, but its label always stays with the first question and the last question never stands alone at the top of a page.
 
 ## 3. Text corrections (approved by the client; nothing else in the author's text was changed)
 
@@ -81,7 +88,7 @@ What is intentionally not in the interiors:
 | Navigation: nav.xhtml with Parts and nested Chapters, NCX for older Kindles, landmarks | ✅ | ✅ |
 | Language metadata | en-GB | nl-NL |
 | Alt text on every image | ✅ | ✅ |
-| Embedded cover | ✅ new UK cover | — (see §7) |
+| Embedded cover | ✅ new UK cover | ✅ new Dutch cover |
 | Content integrity (every DOCX paragraph present) | ✅ | ✅ |
 | File size | 2.6 MB | 1.8 MB |
 
@@ -100,16 +107,15 @@ The text was also checked in a phone-width reading view at 160 % font size: head
 
 1. **⚠️ Cover file `Harrie_Cover_UK.pdf` will not pass KDP as it is.** Cover design is outside our scope, but:
    - it measures 13.181 × 9.0 in, which is **without bleed** (KDP needs 9.25 in tall);
-   - its spine (about 1.18 in) does not match these interiors. A 165-page paperback on white paper has a spine of about 0.37 in.
+   - its spine (about 1.18 in) does not match these interiors. A 196-page paperback on white paper has a spine of about 0.44 in.
    - The designer must rebuild the wraps with KDP's cover calculator using the **final page counts**:
 
      | Edition | Pages |
      |---|---|
-     | EN paperback | 165 |
-     | EN hardcover | 169 |
-     | NL paperback | 163 |
-     | NL hardcover | 165 |
+     | EN paperback | 196 |
+     | EN hardcover | 200 |
+     | NL paperback | 194 |
+     | NL hardcover | 200 |
 2. **Subtitle punctuation.** The cover reads "Thinks, Leads**,** and Builds"; the subtitle supplied (and used on the title page) has no comma after "Leads". KDP compares the title and subtitle on the cover with the book details, so please use one spelling everywhere.
-3. **Dutch eBook cover.** The new Dutch cover was not supplied as a file. Upload it as the eBook cover in KDP, or send it so it can be embedded in the EPUB.
-4. **Colophon subtitle.** The copyright page keeps the author's own line, "Prepare to Win – Doing Is the Best Way of Thinking / The Practical Method for Leadership, Performance Culture and Commercial Effectiveness". Change it if it should match the new subtitle.
-5. **English table of contents.** The other English chapter titles follow the headings in the text (e.g. Part III "The 15 strategies of business athlete"). Only Chapter 13 was changed, as requested.
+3. **Colophon subtitle.** The copyright page keeps the author's own line, "Prepare to Win – Doing Is the Best Way of Thinking / The Practical Method for Leadership, Performance Culture and Commercial Effectiveness". Change it if it should match the new subtitle.
+4. **English table of contents.** The other English chapter titles follow the headings in the text (e.g. Part III "The 15 strategies of business athlete"). Only Chapter 13 was changed, as requested.
