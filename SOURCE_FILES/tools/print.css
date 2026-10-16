@@ -160,3 +160,5 @@ h2.sub { margin: 26pt 0 7pt; }
 /* reflection blocks may continue on the next page (label stays with the first question, questions never split) */
 .reflection { break-inside: auto; }
 .reflection .lab { break-after: avoid; }
+/* never leave a single list item alone at the top of a page */
+ol.nl li:last-child, ul.bl li:last-child { break-before: avoid; }
